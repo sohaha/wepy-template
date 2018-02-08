@@ -1,0 +1,82 @@
+<template>
+  <view class='center'>
+    <text>这是一个 Demo</text>
+    <Component :like='like'>
+      <text>收工</text>
+    </Component>
+    <button size='mini' type="default" @tap='clickBtn' class='btn'> 获取用户信息</button>
+    <block wx:if='{{userInfo}}'>
+      <view>
+        <image src="{{userInfo.avatarUrl}}" mode="widthFix" class="avatarUrl"></image>
+        <text>{{userInfo.nickName}}</text>
+      </view>
+    </block>
+    <repeat for="{{userInfo}}" key="index" index="index" item="item">
+    </repeat>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Common from '../mixins/common'
+  import Component from '../components/component'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'Demo'
+    }
+
+    components = { Component }
+
+    mixins = [Common]
+
+    data = {
+      like: '睡觉',
+      userInfo: null
+    }
+
+    computed = {}
+
+    methods = {
+      clickBtn() {
+        this.getUserInfo()
+      }
+    }
+
+    events = {}
+
+    getUserInfo() {
+      this.$parent.getUserInfo()
+          .then(e => {
+            this.userInfo = e.userInfo
+            this.$apply()
+            console.log('授权成功', this.userInfo)
+          })
+          .catch(e => {
+            console.log('授权失败',e)
+          })
+    }
+
+    onLoad() {
+      this.getUserInfo()
+    }
+  }
+</script>
+<style lang="less">
+  @import "../styles/var";
+
+  .center {
+    text-align: center;
+    padding-top: 100*@rpx;
+  }
+
+  .avatarUrl {
+    width: 200*@rpx;
+    border-radius: 100%;
+  }
+
+  .btn {
+    width: 300*@rpx;
+    display: block;
+  }
+</style>

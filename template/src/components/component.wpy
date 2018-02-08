@@ -1,0 +1,46 @@
+<template>
+  <view class='component-box'>
+    <text>我是{{name}},我喜欢{{like}}</text>
+    <slot></slot>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Com extends wepy.component {
+    components = {}
+    props = {
+      like: {
+        type: String,
+        default: '发呆'
+      },
+    }
+    watch = {}
+    data = {
+      name: '组件'
+    }
+    methods = {}
+    computed = {}
+
+    events = {}
+
+    onLoad() {
+    }
+  }
+</script>
+
+<style lang="less">
+
+  @import '../styles/var';
+
+  .component-box {
+    border: 1px solid #4caf50;
+    width: 500*@rpx;
+    margin: 100*@rpx auto;
+  }
+
+  text {
+    display: block;
+  }
+</style>

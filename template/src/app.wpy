@@ -1,0 +1,47 @@
+<style lang="less">
+  .container {
+    display: flex;
+  }
+</style>
+
+<script>
+  import wepy from 'wepy'
+  import 'wepy-async-function'
+  import Relogin from 'wepy-relogin'
+
+  export default class extends wepy.app {
+    config = {
+      pages: ['pages/index'],
+      window: {
+        backgroundTextStyle: 'light',
+        navigationBarBackgroundColor: '#fff',
+        navigationBarTitleText: 'WeChat',
+        navigationBarTextStyle: 'black'
+      }
+    }
+
+    globalData = {
+      userInfo: null,
+    }
+
+    constructor() {
+      super()
+      this.use('requestfix')
+      this.use('promisify')
+    }
+
+    async getUserInfo() {
+      let userInfo = this.globalData.userInfo
+      if (!userInfo) {
+        userInfo = await Relogin.login(wepy, false)
+        this.globalData.userInfo = userInfo
+        return userInfo
+      } else {
+        return new Promise(userInfo)
+      }
+    }
+
+    onLaunch() {
+    }
+  }
+</script>
