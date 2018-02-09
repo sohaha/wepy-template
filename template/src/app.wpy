@@ -30,7 +30,17 @@
       this.use('promisify')
     }
 
+    lowVersion() {
+      WxaRun.run(wepy, 'testLowVersion')
+            .then({})
+            .catch(e => {
+              console.log(e)
+            })
+    }
+
     onLaunch() {
+      //测试不存在或版本过低的API
+      this.lowVersion()
     }
 
     async getLocation() {

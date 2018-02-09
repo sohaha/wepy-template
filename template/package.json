@@ -13,7 +13,7 @@
   "dependencies": {
     "wepy": "^1.7.0",
     "wepy-async-function": "^1.4.5",
-    "zls-wxa-run": "0.0.1"
+    "zls-wxa-run": "^1.0.2"
   },
   "devDependencies": {
     "babel-plugin-syntax-export-extensions": "^6.13.0",
