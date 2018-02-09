@@ -7,7 +7,7 @@
 <script>
   import wepy from 'wepy'
   import 'wepy-async-function'
-  import Relogin from 'wepy-relogin'
+  import WxaRun from 'zls-wxa-run'
 
   export default class extends wepy.app {
     config = {
@@ -30,18 +30,23 @@
       this.use('promisify')
     }
 
+    onLaunch() {
+    }
+
+    async getLocation() {
+      return await WxaRun.run(wepy, 'getLocation', 'scope.userLocation', 1, { content: '请允许地理位置', showCancel: true }, '请允许地理位置')
+    }
+
     async getUserInfo() {
       let userInfo = this.globalData.userInfo
       if (!userInfo) {
-        userInfo = await Relogin.login(wepy, false)
+        userInfo = await WxaRun.login(wepy, 1, '您没有允许微信授权,\n\n更多功能无法体验喔\n\n现在去重新授权吧...')
         this.globalData.userInfo = userInfo
         return userInfo
       } else {
-        return new Promise(userInfo)
+        return Promise.resolve(userInfo)
       }
     }
 
-    onLaunch() {
-    }
   }
 </script>

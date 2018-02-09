@@ -53,12 +53,37 @@
             console.log('授权成功', this.userInfo)
           })
           .catch(e => {
-            console.log('授权失败',e)
+            console.log('授权失败', e)
           })
     }
 
+    async getLocation() {
+      return await this.$parent.getLocation()
+    }
+
     onLoad() {
-      this.getUserInfo()
+      let Data = (async () => {
+        let data = { userInfo: null, location: null }
+        try {
+          data.userInfo = await this.$parent.getUserInfo()
+        } catch ( e ) {
+          //用户不同意授权登录
+        }
+        try {
+          data.location = await this.$parent.getLocation()
+        } catch ( e ) {
+          //用户不同意地理位置
+        }
+        return data
+      })()
+
+      Data.then(e => {
+        console.log(e)
+        if (e.userInfo) {
+          this.userInfo = e.userInfo.userInfo
+          this.$apply()
+        }
+      })
     }
   }
 </script>

@@ -1,6 +1,7 @@
 !.gitignore
 !.gitkeep
 .wepycache
+package-lock.json
 .idea/
 dist/
 node_modules/
