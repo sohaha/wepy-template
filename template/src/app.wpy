@@ -9,6 +9,8 @@
   import 'wepy-async-function'
   import WxaRun from 'zls-wxa-run'
 
+  WxaRun.init(wepy)
+
   export default class extends wepy.app {
     config = {
       pages: ['pages/index'],
@@ -31,7 +33,7 @@
     }
 
     lowVersion() {
-      WxaRun.run(wepy, 'testLowVersion')
+      WxaRun.run('testLowVersion')
             .then({})
             .catch(e => {
               console.log(e)
@@ -44,13 +46,14 @@
     }
 
     async getLocation() {
-      return await WxaRun.run(wepy, 'getLocation', 'scope.userLocation', 1, { content: '请允许地理位置', showCancel: true }, '请允许地理位置')
+      //需要权限的接口
+      return await WxaRun.authRun('getLocation', [], 'scope.userLocation', 1, { content: '请允许地理位置', showCancel: true }, '请允许地理位置')
     }
 
     async getUserInfo() {
       let userInfo = this.globalData.userInfo
       if (!userInfo) {
-        userInfo = await WxaRun.login(wepy, 1, '您没有允许微信授权,\n\n更多功能无法体验喔\n\n现在去重新授权吧...')
+        userInfo = await WxaRun.login(1, '您没有允许微信授权,\n\n更多功能无法体验喔\n\n现在去重新授权吧...')
         this.globalData.userInfo = userInfo
         return userInfo
       } else {
